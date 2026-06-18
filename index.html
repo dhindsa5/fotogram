@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fotogram | Your Personal Photo Album</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2309212A'/%3E%3Ccircle cx='16' cy='16' r='7' fill='none' stroke='%2355cee0' stroke-width='2.5'/%3E%3Ccircle cx='16' cy='16' r='3' fill='%2355cee0'/%3E%3C/svg%3E"
+    type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+  <a href="#gallery" class="skip-link">Skip to gallery</a>
+
+  <header class="site-header" role="banner">
+    <div class="shell shell--wide header-inner">
+      <a href="#top" class="brand" aria-label="Fotogram home">
+        <img src="./img/header-icon.png" alt="Fotogram logo icon" class="brand__icon" width="40" height="40">
+        <span class="brand__text">Fotogram</span>
+      </a>
+    </div>
+  </header>
+
+  <main id="top" class="site-main">
+    <section class="hero shell shell--content" aria-labelledby="page-title">
+      <h1 id="page-title" class="hero__title">Your personal photo album</h1>
+    </section>
+
+    <section class="gallery-section shell shell--content" aria-label="Photo gallery">
+      <div id="gallery" class="gallery-grid"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer" role="contentinfo">
+    <div class="shell shell--wide footer-inner">
+      <img src="./img/footer-icon.png" alt="Developer Akademie logo" class="footer-logo" width="188" height="44">
+      <p class="footer-copy">© 2023 Developer Akademie GmbH</p>
+    </div>
+  </footer>
+
+  <dialog id="lightbox" class="lightbox" aria-labelledby="lightbox-title" aria-modal="true">
+    <div class="lightbox__panel">
+      <div class="lightbox__top">
+        <div class="lightbox__title-wrap">
+          <h2 id="lightbox-title" class="lightbox__title"></h2>
+          <button type="button" class="like-button lightbox__like" id="lightbox-like" aria-label="Like photo"></button>
+        </div>
+        <button type="button" class="icon-button lightbox__close" id="close-lightbox"
+          aria-label="Close image preview">×</button>
+      </div>
+
+      <div class="lightbox__media-wrap">
+        <img id="lightbox-image" class="lightbox__image" src="" alt="" width="620" height="620">
+      </div>
+
+      <div class="lightbox__bottom">
+        <button type="button" class="nav-button" id="prev-button" aria-label="Previous image">
+          <span aria-hidden="true">←</span>
+        </button>
+        <p id="lightbox-counter" class="lightbox__counter" aria-live="polite"></p>
+        <button type="button" class="nav-button" id="next-button" aria-label="Next image">
+          <span aria-hidden="true">→</span>
+        </button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="./js/script.js" defer></script>
+</body>
+
+</html>

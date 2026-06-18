@@ -1,0 +1,713 @@
+<style>
+body{font-family:Arial,sans-serif;max-width:860px;margin:30px auto;padding:20px;color:#222;line-height:1.7;background:#fff}
+h1{color:#c0392b;border-bottom:3px solid #c0392b;padding-bottom:8px;font-size:22px}
+h2{color:#fff;background:#c0392b;padding:6px 14px;border-radius:4px;font-size:15px;margin-top:28px}
+h3{color:#c0392b;margin-top:18px;font-size:14px;border-bottom:1px solid #eee;padding-bottom:4px}
+p{margin:6px 0;font-size:13px}
+pre{background:#1e1e1e;color:#f8f8f2;padding:14px;border-radius:6px;overflow-x:auto;font-size:12px;line-height:1.5;margin:8px 0}
+code{background:#f0f0f0;padding:1px 4px;border-radius:3px;font-size:12px}
+.warn{background:#fff3cd;border-left:4px solid #ffc107;padding:8px 12px;margin:8px 0;font-size:12px}
+.section{border:1px solid #ddd;border-radius:6px;padding:14px;margin-bottom:20px}
+@media print{pre{page-break-inside:avoid}h2{page-break-before:auto;-webkit-print-color-adjust:exact;print-color-adjust:exact}}
+</style>
+
+<h1>&#128218; Modul 6 &ndash; Einf&uuml;hrung JavaScript<br><small style="font-size:14px;color:#555;font-weight:normal">Developer Akademie &ndash; Vollst&auml;ndige Zusammenfassung + Codebeispiele</small></h1>
+
+<h2>&#127381; VORWORT</h2>
+<div class="section">
+<h3>Einleitung (2:52)</h3>
+<p>Einf&uuml;hrung in Modul 6: JavaScript-Grundlagen, DOM-Manipulation, Debugging, Arrays &amp; Schleifen und das Abschlussprojekt &ldquo;Fotogram&rdquo;.</p>
+</div>
+
+<h2>&#9312; SEKTION I: BASICS</h2>
+
+<div class="section">
+<h3>01 &ndash; Vorbereitung: script.js einbinden (2:02)</h3>
+<p>Eine externe JS-Datei wird am Ende des &lt;body&gt; eingebunden.</p>
+<pre>&lt;!-- index.html --&gt;
+&lt;body&gt;
+  &lt;h1&gt;Meine Seite&lt;/h1&gt;
+  &lt;script src="script.js"&gt;&lt;/script&gt;
+&lt;/body&gt;</pre>
+</div>
+
+<div class="section">
+<h3>02 &ndash; "hello world" und console.log (1:58)</h3>
+<p>Erste Ausgabe in der Browser-Konsole mit <code>console.log()</code>.</p>
+<pre>console.log("Hello World");
+console.log(42);
+console.log(true);</pre>
+</div>
+
+<div class="section">
+<h3>03 &ndash; Variablen (4:17)</h3>
+<p><code>let</code> ist ver&auml;nderbar, <code>const</code> ist unver&auml;nderlich.</p>
+<pre>let name = "Max";
+name = "Lisa"; // OK
+
+const geburtsjahr = 2000;
+// geburtsjahr = 2001; // FEHLER!</pre>
+</div>
+
+<div class="section">
+<h3>04 &ndash; Datentypen (5:39)</h3>
+<p>String, Number, Boolean, null, undefined.</p>
+<pre>let text = "Hallo";       // String
+let zahl = 42;            // Number
+let wahrheit = true;      // Boolean
+let nichts = null;        // null
+let unbekannt;            // undefined
+console.log(typeof text); // "string"</pre>
+</div>
+
+<div class="section">
+<h3>05 &ndash; Strings und Numbers (6:47)</h3>
+<p>Strings verbinden, mit Zahlen rechnen, Achtung bei gemischten Typen.</p>
+<pre>let a = "Anna";
+let b = "Müller";
+console.log(a + " " + b); // Anna Müller
+
+console.log(10 + 3);  // 13
+console.log(10 - 3);  // 7
+console.log(10 * 3);  // 30
+console.log(10 / 3);  // 3.33
+console.log(10 % 3);  // 1 (Rest)
+
+// Achtung:
+console.log("5" + 3); // "53" (String!)</pre>
+</div>
+
+<div class="section">
+<h3>06 &ndash; Booleans &amp; Operatoren (&amp;&amp; und ||) (6:23)</h3>
+<p>Logische Verkn&uuml;pfungen von Bedingungen.</p>
+<pre>let sonnig = true;
+let schirm = false;
+
+console.log(sonnig &amp;&amp; schirm); // false (beide m&uuml;ssen true sein)
+console.log(sonnig || schirm); // true (eine reicht)
+console.log(!sonnig);          // false (Umkehrung)</pre>
+</div>
+
+<div class="section">
+<h3>07 &ndash; Booleans &amp; Operatoren (==, ===, &lt;=, ...) (6:04)</h3>
+<p>Vergleichsoperatoren. Wichtig: == vs. ===</p>
+<pre>console.log(5 == "5");   // true  (nur Wert)
+console.log(5 === "5");  // false (Wert + Typ)
+console.log(5 !== "5");  // true
+console.log(10 &gt; 5);    // true
+console.log(5 &gt;= 5);    // true
+console.log(4 &lt;= 3);    // false</pre>
+</div>
+
+<div class="section">
+<h3>08 &ndash; if, else und else if (8:24)</h3>
+<p>Entscheidungen im Code treffen.</p>
+<pre>let alter = 20;
+
+if (alter &gt;= 18) {
+  console.log("Vollj&auml;hrig");
+} else if (alter &gt;= 16) {
+  console.log("Fast vollj&auml;hrig");
+} else {
+  console.log("Minderj&auml;hrig");
+}</pre>
+</div>
+
+<div class="section">
+<h3>09 &ndash; functions: Einf&uuml;hrung (6:30)</h3>
+<p>Funktionen kapseln wiederverwendbaren Code.</p>
+<pre>function begruesse() {
+  console.log("Hallo, willkommen!");
+}
+begruesse(); // Funktion aufrufen</pre>
+</div>
+
+<div class="section">
+<h3>10 &ndash; functions: Parameter (4:30)</h3>
+<p>Werte werden an Funktionen &uuml;bergeben.</p>
+<pre>function sagHallo(name) {
+  console.log("Hallo, " + name + "!");
+}
+sagHallo("Max");  // Hallo, Max!
+sagHallo("Lisa"); // Hallo, Lisa!
+
+function addiere(a, b) {
+  console.log(a + b);
+}
+addiere(3, 5); // 8</pre>
+</div>
+
+<div class="section">
+<h3>11 &ndash; functions: return (4:19)</h3>
+<p>Funktionen k&ouml;nnen Ergebnisse zur&uuml;ckgeben.</p>
+<pre>function multipliziere(a, b) {
+  return a * b;
+}
+let ergebnis = multipliziere(4, 5);
+console.log(ergebnis); // 20</pre>
+</div>
+
+<div class="section">
+<h3>12 &ndash; objects: Einf&uuml;hrung (7:31)</h3>
+<p>Objekte b&uuml;ndeln zusammengeh&ouml;rige Daten.</p>
+<pre>let person = {
+  name: "Max",
+  alter: 25,
+  stadt: "Berlin"
+};
+console.log(person.name);     // Max
+console.log(person["stadt"]); // Berlin
+person.alter = 26;</pre>
+</div>
+
+<div class="section">
+<h3>13 &ndash; String-Funktionen: length und trim() (3:07)</h3>
+<pre>let text = "  Hallo Welt  ";
+console.log(text.length);        // 14
+console.log(text.trim());        // "Hallo Welt"
+console.log(text.trim().length); // 10</pre>
+</div>
+
+<div class="section">
+<h3>14 &ndash; String-Funktionen: Doku (3:15)</h3>
+<p>Selbst&auml;ndig Methoden aus der MDN-Doku nutzen.</p>
+<pre>let satz = "JavaScript ist toll";
+console.log(satz.toUpperCase());         // JAVASCRIPT IST TOLL
+console.log(satz.includes("toll"));      // true
+console.log(satz.replace("toll","super")); // JavaScript ist super
+console.log(satz.split(" "));            // ["JavaScript","ist","toll"]</pre>
+</div>
+
+<div class="section">
+<h3>15 &ndash; &Uuml;bungen (Aufgaben)</h3>
+<pre>// Aufgabe 1: fullName
+function fullName(vorname, nachname) {
+  return vorname + " " + nachname;
+}
+console.log(fullName("Max", "Mustermann")); // Max Mustermann
+
+// Aufgabe 2: capitalizeLetters
+function capitalizeLetters(str) {
+  return str.toUpperCase();
+}
+console.log(capitalizeLetters("bAnanE")); // BANANE
+
+// Aufgabe 3: countCharacters
+function countCharacters(str) {
+  return str.length;
+}
+console.log(countCharacters("banana")); // 6
+
+// Knacker: formatToCurrency
+function formatToCurrency(zahl) {
+  return zahl.toFixed(2).replace(".", ",") + "€";
+}
+console.log(formatToCurrency(0.5)); // 0,50€</pre>
+</div>
+
+<h2>&#9313; SEKTION II: DOM-MANIPULATION</h2>
+
+<div class="section">
+<h3>01 &ndash; Das DOM und .innerHTML (4:44)</h3>
+<p>Mit <code>getElementById()</code> auf Elemente zugreifen und Inhalt mit <code>.innerHTML</code> setzen.</p>
+<pre>&lt;div id="meinDiv"&gt;&lt;/div&gt;
+
+// JS:
+let div = document.getElementById("meinDiv");
+div.innerHTML = "&lt;h2&gt;Hallo aus JavaScript!&lt;/h2&gt;";</pre>
+</div>
+
+<div class="section">
+<h3>02 &ndash; .innerHTML vs. .innerText (3:10)</h3>
+<p><code>.innerHTML</code> interpretiert HTML-Tags, <code>.innerText</code> zeigt reinen Text.</p>
+<pre>let box = document.getElementById("box");
+box.innerHTML = "&lt;b&gt;Fett&lt;/b&gt;";  // wird als HTML gerendert
+box.innerText = "&lt;b&gt;Fett&lt;/b&gt;";  // wird als Text angezeigt</pre>
+</div>
+
+<div class="section">
+<h3>03 &ndash; Aufgabe: Button hinzuf&uuml;gen</h3>
+<pre>&lt;div id="container"&gt;&lt;/div&gt;
+
+// Aufgabe 1 &amp; 2:
+let container = document.getElementById("container");
+container.innerHTML = '&lt;button id="meinButton"&gt;Klick mich&lt;/button&gt;';</pre>
+</div>
+
+<div class="section">
+<h3>04 &ndash; .classList mit add, remove und toggle (3:51)</h3>
+<pre>let box = document.getElementById("box");
+box.classList.add("gross");      // Klasse hinzuf&uuml;gen
+box.classList.remove("rot");     // Klasse entfernen
+box.classList.toggle("aktiv");   // an/aus schalten
+console.log(box.classList.contains("gross")); // true</pre>
+</div>
+
+<div class="section">
+<h3>05 &ndash; setAttribute und value (5:07)</h3>
+<pre>let bild = document.getElementById("bild");
+bild.setAttribute("src", "neu.jpg");
+bild.setAttribute("alt", "Ein neues Bild");
+
+let eingabe = document.getElementById("eingabe");
+console.log(eingabe.value); // aktuellen Wert lesen</pre>
+</div>
+
+<div class="section">
+<h3>06 &ndash; Aufgabe: setAttribute</h3>
+<pre>let p = document.getElementById("hinweis");
+p.setAttribute("title", "Das ist ein Tooltip");
+p.setAttribute("class", "highlight"); // CSS-Klasse setzen</pre>
+</div>
+
+<div class="section">
+<h3>07 &ndash; onclick &rarr; Events im DOM (5:52)</h3>
+<pre>&lt;button onclick="sagHallo()"&gt;Klick mich&lt;/button&gt;
+&lt;div id="ausgabe"&gt;&lt;/div&gt;
+
+function sagHallo() {
+  document.getElementById("ausgabe").innerHTML = "Hallo!";
+}</pre>
+</div>
+
+<div class="section">
+<h3>08 &ndash; onclick-Alternativen (onchange, onkeydown...) (4:29)</h3>
+<pre>&lt;input id="feld" type="text" onkeyup="zeigeWert()"&gt;
+&lt;select id="auswahl" onchange="auswahlGeaendert()"&gt;
+
+function zeigeWert() {
+  console.log(document.getElementById("feld").value);
+}
+function auswahlGeaendert() {
+  console.log(document.getElementById("auswahl").value);
+}</pre>
+</div>
+
+<div class="section">
+<h3>09 &ndash; Aufgabe: onkeyup/onkeydown</h3>
+<pre>&lt;input id="eingabe" type="text" onkeyup="loggeWert()"&gt;
+
+function loggeWert() {
+  let wert = document.getElementById("eingabe").value;
+  console.log(wert);
+}
+// onkeydown: BEVOR Taste verarbeitet wird
+// onkeyup: NACHDEM Taste losgelassen wurde</pre>
+</div>
+
+<div class="section">
+<h3>10 &ndash; addEventListener (3:06)</h3>
+<pre>let btn = document.getElementById("meinButton");
+btn.addEventListener("click", function() {
+  console.log("Button wurde geklickt!");
+});</pre>
+</div>
+
+<div class="section">
+<h3>11 &ndash; WICHTIG: createElement/appendChild NICHT nutzen</h3>
+<p class="warn">&#9888;&#65039; Im Kurs wird ausschlie&szlig;lich <code>.innerHTML</code> empfohlen. <code>createElement</code> ist fortgeschrittener und wird hier nicht behandelt.</p>
+<pre>// NICHT empfohlen:
+let btn = document.createElement("button");
+btn.innerText = "Klick";
+document.body.appendChild(btn);
+
+// EMPFOHLEN im Kurs:
+document.getElementById("container").innerHTML = "&lt;button&gt;Klick&lt;/button&gt;";</pre>
+</div>
+
+<h2>&#9314; SEKTION III: DEBUGGER</h2>
+
+<div class="section">
+<h3>01 &ndash; Was ist der Debugger? (1:49)</h3>
+<p>Der Debugger in den Browser-DevTools (F12) erm&ouml;glicht es, JavaScript Schritt f&uuml;r Schritt auszuf&uuml;hren und Fehler zu finden.</p>
+</div>
+
+<div class="section">
+<h3>02 &ndash; Breakpoints setzen (5:42)</h3>
+<p>Im DevTools &rarr; Sources &rarr; Klick auf eine Zeilennummer &rarr; Roter Punkt = Breakpoint. Das Skript h&auml;lt dort an.</p>
+<pre>function berechne(a, b) {
+  let summe = a + b;  // &lt;&lt; hier Breakpoint setzen
+  return summe;
+}
+berechne(3, 5);</pre>
+</div>
+
+<div class="section">
+<h3>03 &ndash; Die Debugger-Pfeile (7:36)</h3>
+<p>Step Over (F10): n&auml;chste Zeile &bull; Step Into (F11): in Funktion &bull; Step Out: aus Funktion &bull; Resume (F8): weiter bis n&auml;chsten Breakpoint</p>
+</div>
+
+<div class="section">
+<h3>04 &ndash; Variablen anzeigen (7:30)</h3>
+<p>Im Debugger-Panel rechts unter &ldquo;Scope&rdquo; sieht man alle aktuellen Variablenwerte live w&auml;hrend der Ausf&uuml;hrung.</p>
+</div>
+
+<div class="section">
+<h3>05 &ndash; Einf&uuml;hrung in Scopes (8:45)</h3>
+<p>Scopes definieren, wo Variablen sichtbar sind.</p>
+<pre>let global = "global"; // &uuml;berall sichtbar
+
+function meineFunc() {
+  let lokal = "lokal"; // nur hier sichtbar
+  console.log(global); // OK
+  console.log(lokal);  // OK
+}
+meineFunc();
+// console.log(lokal); // FEHLER!</pre>
+</div>
+
+<div class="section">
+<h3>06 &ndash; Scopes im Debugger sehen (6:15)</h3>
+<p>Breakpoint innerhalb einer Funktion setzen &rarr; Im &ldquo;Scope&rdquo;-Panel sieht man &ldquo;Local&rdquo; und &ldquo;Global&rdquo; getrennt.</p>
+</div>
+
+<div class="section">
+<h3>07 &ndash; Wichtige Tabs des Debuggers (6:40)</h3>
+<p><strong>Console:</strong> Ausgaben &amp; Fehler &bull; <strong>Sources:</strong> Code &amp; Breakpoints &bull; <strong>Elements:</strong> HTML live &bull; <strong>Network:</strong> Netzwerkanfragen</p>
+</div>
+
+<div class="section">
+<h3>08 &ndash; Debugger-Challenge (2:17)</h3>
+<p>Download: <code>debugger_aufgabe.zip</code> &ndash; Fehlerhaften Code mit dem Debugger analysieren und reparieren.</p>
+</div>
+
+<h2>&#9315; SEKTION IV: ARRAYS UND SCHLEIFEN</h2>
+
+<div class="section">
+<h3>01 &ndash; Arrays: Basics (4:50)</h3>
+<pre>let farben = ["rot", "gr&uuml;n", "blau"];
+console.log(farben[0]);      // "rot"
+console.log(farben[2]);      // "blau"
+console.log(farben.length);  // 3</pre>
+</div>
+
+<div class="section">
+<h3>02 &ndash; Arrays: entries und &ldquo;empty&rdquo; (2:36)</h3>
+<pre>let arr = [1, , 3]; // Index 1 ist "empty"
+console.log(arr[1]); // undefined
+for (let [i, v] of arr.entries()) {
+  console.log(i, v);
+}</pre>
+</div>
+
+<div class="section">
+<h3>03 &ndash; Arrays: pop() und push() (4:40)</h3>
+<pre>let liste = ["a", "b", "c"];
+liste.push("d");         // ["a","b","c","d"]
+liste.pop();             // ["a","b","c"]
+console.log(liste.length); // 3</pre>
+</div>
+
+<div class="section">
+<h3>04 &ndash; Aufgaben: Arrays (5:28)</h3>
+<pre>// includes
+function containsElement(arr, el) { return arr.includes(el); }
+console.log(containsElement(["Anna","Ben","Clara"], "Ben")); // true
+
+// indexOf
+function findElementIndex(arr, el) { return arr.indexOf(el); }
+console.log(findElementIndex([10,20,30,40], 30)); // 2
+
+// shift
+function removeFirstElement(arr) { arr.shift(); return arr; }
+console.log(removeFirstElement([10,20,30])); // [20,30]
+
+// unshift
+function addElementToStart(arr, el) { arr.unshift(el); return arr; }
+console.log(addElementToStart([2,3,4], 1)); // [1,2,3,4]
+
+// slice
+function getSubArray(arr, s, e) { return arr.slice(s, e); }
+console.log(getSubArray([1,2,3,4,5], 1, 4)); // [2,3,4]
+
+// join
+function joinArray(arr, sep) { return arr.join(sep); }
+console.log(joinArray(["apple","banana","cherry"], ", ")); // apple, banana, cherry</pre>
+</div>
+
+<div class="section">
+<h3>05 &ndash; for-Schleife: Basics (7:37)</h3>
+<pre>for (let i = 0; i &lt; 5; i++) {
+  console.log(i); // 0, 1, 2, 3, 4
+}</pre>
+</div>
+
+<div class="section">
+<h3>06 &ndash; for-Schleife: durch Arrays iterieren (5:42)</h3>
+<pre>let namen = ["Max", "Lisa", "Tom"];
+for (let i = 0; i &lt; namen.length; i++) {
+  console.log(namen[i]); // Max, Lisa, Tom
+}</pre>
+</div>
+
+<div class="section">
+<h3>07 &ndash; Aufgabe: for-Schleifen (4:52)</h3>
+<pre>// Summe aller Elemente
+function summe(arr) {
+  let total = 0;
+  for (let i = 0; i &lt; arr.length; i++) {
+    total += arr[i];
+  }
+  return total;
+}
+console.log(summe([1, 2, 3, 4, 5])); // 15</pre>
+</div>
+
+<div class="section">
+<h3>08 &ndash; for-Schleife: break und continue (5:25)</h3>
+<pre>for (let i = 0; i &lt; 10; i++) {
+  if (i === 3) continue; // &uuml;berspringt 3
+  if (i === 6) break;    // h&ouml;rt bei 6 auf
+  console.log(i);        // 0, 1, 2, 4, 5
+}</pre>
+</div>
+
+<div class="section">
+<h3>09 &ndash; getElementsByClassName (7:05)</h3>
+<pre>let elemente = document.getElementsByClassName("karte");
+for (let i = 0; i &lt; elemente.length; i++) {
+  elemente[i].innerHTML = "Karte " + i;
+}</pre>
+</div>
+
+<div class="section">
+<h3>10 &ndash; While und ForEach (6:04)</h3>
+<pre>// While
+let i = 0;
+while (i &lt; 3) {
+  console.log(i);
+  i++;
+}
+
+// forEach
+let farben = ["rot", "blau", "gr&uuml;n"];
+farben.forEach(function(farbe) {
+  console.log(farbe);
+});</pre>
+</div>
+
+<h2>&#9316; SEKTION V: WCAG (Barrierefreiheit)</h2>
+
+<div class="section">
+<h3>Einleitung (0:30)</h3>
+<p>Einf&uuml;hrung in die WCAG-Sektion: Was ist Barrierefreiheit im Web?</p>
+</div>
+
+<div class="section">
+<h3>01 &ndash; Was ist WCAG? (4:06)</h3>
+<p>WCAG = Web Content Accessibility Guidelines. Standards f&uuml;r barrierefreie Webseiten, damit Menschen mit Behinderungen das Web nutzen k&ouml;nnen.</p>
+<pre>&lt;!-- Gutes Beispiel: Bild mit Alt-Text --&gt;
+&lt;img src="foto.jpg" alt="Sonnenuntergang am Meer"&gt;
+
+&lt;!-- Schlechtes Beispiel: kein Alt-Text --&gt;
+&lt;img src="foto.jpg"&gt;</pre>
+</div>
+
+<div class="section">
+<h3>02 &ndash; WCAG im Gesetz (4:49)</h3>
+<p>In Deutschland gilt das Barrierefreiheitsst&auml;rkungsgesetz (BFSG). &Ouml;ffentliche Webseiten und digitale Produkte m&uuml;ssen WCAG-konform sein (Stufe AA).</p>
+</div>
+
+<div class="section">
+<h3>03 &ndash; WCAG Richtlinien Seite (3:17)</h3>
+<p>Offizielle Seite: <strong>wcag.com</strong> und <strong>w3.org/WAI/WCAG22</strong> &ndash; dort sind alle Richtlinien aufgelistet und erkl&auml;rt.</p>
+</div>
+
+<div class="section">
+<h3>04 &ndash; Seitenchecker (6:39)</h3>
+<p>Tools zum Pr&uuml;fen von Barrierefreiheit: <strong>WAVE</strong> (wave.webaim.org), <strong>axe DevTools</strong> (Browser-Extension) &ndash; zeigen Fehler auf der Seite an.</p>
+</div>
+
+<div class="section">
+<h3>05 &ndash; ARIA Attribute (8:01)</h3>
+<p>ARIA-Attribute erg&auml;nzen HTML um zus&auml;tzliche Bedeutung f&uuml;r Screenreader.</p>
+<pre>&lt;button aria-label="Men&uuml; schlie&szlig;en"&gt;X&lt;/button&gt;
+
+&lt;div role="dialog" aria-modal="true" aria-labelledby="titel"&gt;
+  &lt;h2 id="titel"&gt;Einstellungen&lt;/h2&gt;
+&lt;/div&gt;
+
+&lt;!-- Live-Region f&uuml;r dynamische Inhalte --&gt;
+&lt;div aria-live="polite" id="status"&gt;&lt;/div&gt;</pre>
+</div>
+
+<h2>&#9317; SEKTION VI: WCAG F&Uuml;R DAS FOTOGRAM</h2>
+
+<div class="section">
+<h3>Einleitung (0:50)</h3>
+<p>Barrierefreiheit konkret im Fotogram-Projekt umsetzen.</p>
+</div>
+
+<div class="section">
+<h3>01 &ndash; Semantischer Dialog (6:37)</h3>
+<p>Den nativen HTML <code>&lt;dialog&gt;</code>-Tag nutzen statt einem normalen <code>&lt;div&gt;</code>.</p>
+<pre>&lt;dialog id="meinDialog"&gt;
+  &lt;h2&gt;Bild vergr&ouml;&szlig;ern&lt;/h2&gt;
+  &lt;img src="foto.jpg" alt="Foto"&gt;
+  &lt;button onclick="dialog.close()"&gt;Schlie&szlig;en&lt;/button&gt;
+&lt;/dialog&gt;
+
+// &ouml;ffnen:
+document.getElementById("meinDialog").showModal();</pre>
+</div>
+
+<div class="section">
+<h3>02 &ndash; Dialog mit ARIA (3:29)</h3>
+<pre>&lt;dialog id="dialog" aria-labelledby="dialogTitel" aria-describedby="dialogText"&gt;
+  &lt;h2 id="dialogTitel"&gt;Foto ansehen&lt;/h2&gt;
+  &lt;p id="dialogText"&gt;Klicke Schlie&szlig;en um zur&uuml;ckzukehren.&lt;/p&gt;
+  &lt;button&gt;Schlie&szlig;en&lt;/button&gt;
+&lt;/dialog&gt;</pre>
+</div>
+
+<div class="section">
+<h3>03 &ndash; Dialog animieren (7:59)</h3>
+<pre>/* CSS */
+dialog {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+dialog[open] {
+  opacity: 1;
+}</pre>
+</div>
+
+<div class="section">
+<h3>04 &ndash; Tabindex (6:02)</h3>
+<p><code>tabindex</code> steuert die Tab-Reihenfolge f&uuml;r Tastaturnutzer.</p>
+<pre>&lt;button tabindex="1"&gt;Erstes Element&lt;/button&gt;
+&lt;button tabindex="2"&gt;Zweites Element&lt;/button&gt;
+&lt;button tabindex="-1"&gt;Nicht per Tab erreichbar&lt;/button&gt;</pre>
+</div>
+
+<div class="section">
+<h3>05 &ndash; Tabindex und Focusshift (6:11)</h3>
+<p>Beim &Ouml;ffnen eines Dialogs den Fokus dorthin verschieben, beim Schlie&szlig;en zur&uuml;ck.</p>
+<pre>function openDialog() {
+  let dialog = document.getElementById("dialog");
+  dialog.showModal();
+  dialog.focus(); // Fokus auf Dialog setzen
+}
+
+function closeDialog() {
+  let dialog = document.getElementById("dialog");
+  dialog.close();
+  document.getElementById("openBtn").focus(); // Fokus zur&uuml;ck
+}</pre>
+</div>
+
+<h2>&#9318; SEKTION VII: ABSCHLUSSPROJEKT &ndash; FOTOGRAM</h2>
+
+<div class="section">
+<h3>01 &ndash; Projektvorstellung: Fotogram (1:55)</h3>
+<p>Das Abschlussprojekt ist eine Foto-Galerie-Webseite namens &ldquo;Fotogram&rdquo;. Fotos werden dynamisch per JavaScript angezeigt und k&ouml;nnen nach Kategorien gefiltert werden.</p>
+</div>
+
+<div class="section">
+<h3>02 &ndash; Template-functions (4:07)</h3>
+<p>Eine Funktion erstellt HTML-Code als String und gibt ihn zur&uuml;ck. So k&ouml;nnen Bilder dynamisch in die Seite eingef&uuml;gt werden.</p>
+<pre>function createImageCard(src, title, category) {
+  return `
+    &lt;div class="card" data-category="${category}"&gt;
+      &lt;img src="${src}" alt="${title}"&gt;
+      &lt;h3&gt;${title}&lt;/h3&gt;
+    &lt;/div&gt;
+  `;
+}
+
+let gallery = document.getElementById("gallery");
+gallery.innerHTML += createImageCard("berg.jpg", "Berge", "natur");</pre>
+</div>
+
+<div class="section">
+<h3>03 &ndash; Filterbuttons (6:55)</h3>
+<p>Buttons filtern die Bilder nach Kategorie, indem sie Klassen hinzuf&uuml;gen/entfernen oder <code>.innerHTML</code> neu bef&uuml;llen.</p>
+<pre>function filterBilder(kategorie) {
+  let karten = document.getElementsByClassName("card");
+  for (let i = 0; i &lt; karten.length; i++) {
+    if (kategorie === "alle" || karten[i].dataset.category === kategorie) {
+      karten[i].classList.remove("hidden");
+    } else {
+      karten[i].classList.add("hidden");
+    }
+  }
+}</pre>
+</div>
+
+<div class="section">
+<h3>04 &ndash; Urheberrecht Bilder (1:48)</h3>
+<p>F&uuml;r eigene Projekte nur lizenzfreie Bilder verwenden. Empfohlene Quellen: <strong>unsplash.com</strong>, <strong>pexels.com</strong>, <strong>pixabay.com</strong>.</p>
+</div>
+
+<div class="section">
+<h3>05 &ndash; File names aus Ordner lesen (1:23)</h3>
+<p>Dateinamen aus einem Ordner k&ouml;nnen per JavaScript-Array manuell gepflegt werden. Eine automatische Ordner-Auslesung gibt es im Browser nicht.</p>
+<pre>let bilder = ["foto1.jpg", "foto2.jpg", "foto3.jpg"];
+bilder.forEach(function(bild) {
+  gallery.innerHTML += `&lt;img src="bilder/${bild}" alt=""&gt;`;
+});</pre>
+</div>
+
+<div class="section">
+<h3>06 &ndash; Event-Bubbling (6:16)</h3>
+<p>Events &ldquo;blubbern&rdquo; vom inneren Element nach au&szlig;en. Kann ungewollte Effekte erzeugen.</p>
+<pre>document.getElementById("elternelement").onclick = function() {
+  console.log("Elternelement geklickt");
+};
+
+document.getElementById("kindelement").onclick = function(event) {
+  event.stopPropagation(); // Bubbling stoppen!
+  console.log("Nur Kind geklickt");
+};</pre>
+</div>
+
+<h2>&#127775; EXTRA: &Uuml;BUNGEN</h2>
+
+<div class="section">
+<h3>Einleitung (2:36)</h3>
+<p>Optionale zus&auml;tzliche &Uuml;bungen zur Vertiefung der erlernten Konzepte.</p>
+</div>
+
+<div class="section">
+<h3>HTML Templates (2:49)</h3>
+<pre>function createCard(title, text) {
+  return `&lt;div class="card"&gt;&lt;h3&gt;${title}&lt;/h3&gt;&lt;p&gt;${text}&lt;/p&gt;&lt;/div&gt;`;
+}
+document.getElementById("container").innerHTML = createCard("Titel", "Text");</pre>
+</div>
+
+<div class="section">
+<h3>Funktionsparameter (1:38)</h3>
+<pre>function begruessung(name, uhrzeit) {
+  if (uhrzeit &lt; 12) return "Guten Morgen, " + name;
+  if (uhrzeit &lt; 18) return "Guten Tag, " + name;
+  return "Guten Abend, " + name;
+}
+console.log(begruessung("Max", 9));  // Guten Morgen, Max
+console.log(begruessung("Lisa", 15)); // Guten Tag, Lisa</pre>
+</div>
+
+<div class="section">
+<h3>For-Schleife (&Uuml;bung) (2:18)</h3>
+<pre>// Alle geraden Zahlen von 0-20 ausgeben
+for (let i = 0; i &lt;= 20; i++) {
+  if (i % 2 === 0) console.log(i);
+}</pre>
+</div>
+
+<div class="section">
+<h3>Fehlermeldungen (4:23)</h3>
+<p>H&auml;ufige Fehlertypen:</p>
+<pre>// ReferenceError: Variable nicht definiert
+console.log(nichtExistent); // ReferenceError
+
+// TypeError: falscher Datentyp
+let zahl = 42;
+zahl.toUpperCase(); // TypeError
+
+// SyntaxError: falscher Code
+// let x = ; // SyntaxError</pre>
+</div>
+
+<br><hr>
+<p style="text-align:center;color:#888;font-size:12px">&#169; Developer Akademie &ndash; Modul 6 Zusammenfassung &ndash; Erstellt am 18.06.2026</p>
