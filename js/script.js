@@ -1,6 +1,3 @@
-/**
- * Array of gallery images with correct paths and titles.
- */
 const IMAGES = [
   { src: "./img/1.jpg.png", title: "Alaska-810433_1280" },
   { src: "./img/2.jpg.png", title: "Night-City-Preview" },
