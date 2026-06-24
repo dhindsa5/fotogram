@@ -535,12 +535,6 @@ select {
 }
 
 @media (max-width: 380px) {
-  .page-content,
-  .gallery-grid,
-  .lightbox__panel {
-    width: min(100% - 32px, 343px);
-  }
-
   .hero__title {
     width: 100%;
     max-width: 315px;
