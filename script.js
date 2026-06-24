@@ -69,7 +69,7 @@ function getLikeIconSvg(liked) {
 function createGalleryItem(image, index) {
   const liked = isLiked(index);
   return `
-    <div class="gallery-card" data-index="${index}" role="button" tabindex="0" aria-label="Open ${image.title}">
+    <div class="gallery-card" data-index="${index}" role="button" tabindex="0" aria-label="View image: ${image.title}">
       <img
         class="gallery-card__image"
         src="${image.src}"
@@ -230,3 +230,5 @@ function init() {
 
   renderGallery();
 }
+
+init();
