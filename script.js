@@ -180,12 +180,20 @@ function closeLightbox() {
 }
 
 function showPrevious() {
-  currentIndex = (currentIndex - 1 + IMAGES.length) % IMAGES.length;
+  if (currentIndex > 0) {
+    currentIndex--;
+  } else {
+    currentIndex = IMAGES.length - 1;
+  }
   updateLightbox();
 }
 
 function showNext() {
-  currentIndex = (currentIndex + 1) % IMAGES.length;
+  if (currentIndex < IMAGES.length - 1) {
+    currentIndex++;
+  } else {
+    currentIndex = 0;
+  }
   updateLightbox();
 }
 
@@ -208,6 +216,11 @@ function init() {
   prevButton.addEventListener("click", showPrevious);
   nextButton.addEventListener("click", showNext);
   lightboxLike.addEventListener("click", () => handleLikeToggle(currentIndex));
+
+  prevButton.addEventListener("mousedown", (e) => e.preventDefault());
+  nextButton.addEventListener("mousedown", (e) => e.preventDefault());
+  lightboxImage.addEventListener("mousedown", (e) => e.preventDefault());
+
   lightbox.addEventListener("keydown", handleDialogKeys);
   lightbox.addEventListener("click", (event) => {
     if (event.target === lightbox) {
@@ -217,5 +230,3 @@ function init() {
 
   renderGallery();
 }
-
-init();
