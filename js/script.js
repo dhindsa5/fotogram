@@ -1,16 +1,16 @@
 const IMAGES = [
-  { src: "./img/1.jpg.png", title: "Alaska-810433_1280" },
-  { src: "./img/2.jpg.png", title: "Night-City-Preview" },
-  { src: "./img/3.png.png", title: "Storm-Clouds-Formation" },
-  { src: "./img/4.jpg.png", title: "Blue-Tit-On-Branch" },
-  { src: "./img/5.jpg.png", title: "Hurricane-From-Orbit" },
-  { src: "./img/6.jpg.png", title: "Frozen-Lake-Valley" },
-  { src: "./img/7.jpg.png", title: "Solitary-Figure-At-Night" },
-  { src: "./img/8.jpg.png", title: "Snow-Bunting-On-Rock" },
-  { src: "./img/9.jpg.png", title: "Snow-Leopard-Cub" },
-  { src: "./img/10.jpg.png", title: "Golden-Mountain-Light" },
-  { src: "./img/11.jpg.png", title: "Winter-Tree-Field" },
-  { src: "./img/12.jpg.png", title: "Waterfowl-On-Lake" }
+  { src: "./assets/img/1.jpg.png", title: "Alaska-810433_1280" },
+  { src: "./assets/img/2.jpg.png", title: "Night-City-Preview" },
+  { src: "./assets/img/3.png.png", title: "Storm-Clouds-Formation" },
+  { src: "./assets/img/4.jpg.png", title: "Blue-Tit-On-Branch" },
+  { src: "./assets/img/5.jpg.png", title: "Hurricane-From-Orbit" },
+  { src: "./assets/img/6.jpg.png", title: "Frozen-Lake-Valley" },
+  { src: "./assets/img/7.jpg.png", title: "Solitary-Figure-At-Night" },
+  { src: "./assets/img/8.jpg.png", title: "Snow-Bunting-On-Rock" },
+  { src: "./assets/img/9.jpg.png", title: "Snow-Leopard-Cub" },
+  { src: "./assets/img/10.jpg.png", title: "Golden-Mountain-Light" },
+  { src: "./assets/img/11.jpg.png", title: "Winter-Tree-Field" },
+  { src: "./assets/img/12.jpg.png", title: "Waterfowl-On-Lake" }
 ];
 
 const gallery = document.getElementById("gallery");
@@ -25,94 +25,97 @@ const nextButton = document.getElementById("next-button");
 
 let currentIndex = 0;
 let lastFocusedElement = null;
+const memoryStore = new Map();
 
-/**
- * Get storage key for liked state.
- */
 function getLikeKey(index) {
   return `fotogram_liked_${index}`;
 }
 
-/**
- * Check if image is liked.
- */
-function isLiked(index) {
-  return localStorage.getItem(getLikeKey(index)) === "true";
+function safeGet(key) {
+  try {
+    return window.localStorage.getItem(key);
+  } catch {
+    return memoryStore.get(key) ?? null;
+  }
 }
 
-/**
- * Toggle liked state for image.
- */
+function safeSet(key, value) {
+  try {
+    window.localStorage.setItem(key, value);
+  } catch {
+    memoryStore.set(key, value);
+  }
+}
+
+function isLiked(index) {
+  return safeGet(getLikeKey(index)) === "true";
+}
+
 function toggleLike(index) {
   const key = getLikeKey(index);
-  const current = isLiked(index);
-  localStorage.setItem(key, !current);
+  safeSet(key, String(!isLiked(index)));
 }
 
-/**
- * Render SVG heart icon string based on liked state.
- */
 function getLikeIconSvg(liked) {
-  const fill = liked ? "#ff6b57" : "none";
-  const stroke = liked ? "#ff6b57" : "currentColor";
+  const fill = liked ? "#FD5B4F" : "none";
+  const stroke = liked ? "#FD5B4F" : "currentColor";
   return `
-    <svg viewBox="0 0 24 24" width="20" height="20" stroke="${stroke}" stroke-width="2" fill="${fill}" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="${fill}" stroke="${stroke}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
   `;
 }
 
-/**
- * Create gallery item template string.
- */
 function createGalleryItem(image, index) {
   const liked = isLiked(index);
-  const heartSvg = getLikeIconSvg(liked);
-  const activeClass = liked ? "is-liked" : "";
   return `
     <div class="gallery-card" data-index="${index}" role="button" tabindex="0" aria-label="Open ${image.title}">
-      <img class="gallery-card__image" src="${image.src}" alt="${image.title}" width="220" height="220" loading="lazy" decoding="async">
-      <button class="like-button ${activeClass}" type="button" aria-label="Like photo" data-index="${index}">${heartSvg}</button>
+      <img
+        class="gallery-card__image"
+        src="${image.src}"
+        alt="${image.title}"
+        width="150"
+        height="150"
+        loading="lazy"
+        decoding="async"
+      >
+      <button
+        class="like-button ${liked ? "is-liked" : ""}"
+        type="button"
+        aria-label="${liked ? "Unlike photo" : "Like photo"}"
+        data-index="${index}"
+      >
+        ${getLikeIconSvg(liked)}
+      </button>
     </div>
   `;
 }
 
-/**
- * Render all gallery cards.
- */
 function renderGallery() {
-  const html = IMAGES.map(createGalleryItem).join("");
-  gallery.innerHTML = html;
+  gallery.innerHTML = IMAGES.map(createGalleryItem).join("");
   setupGalleryListeners();
 }
 
-/**
- * Bind event listeners to gallery items.
- */
 function setupGalleryListeners() {
   gallery.querySelectorAll(".gallery-card").forEach((card) => {
-    card.addEventListener("click", (e) => handleCardClick(e, card));
-    card.addEventListener("keydown", (e) => handleCardKey(e, card));
+    card.addEventListener("click", (event) => handleCardClick(event, card));
+    card.addEventListener("keydown", (event) => handleCardKey(event, card));
   });
 }
 
-/**
- * Handle click on a gallery card or its like button.
- */
 function handleCardClick(event, card) {
   const index = Number(card.dataset.index);
   const likeBtn = event.target.closest(".like-button");
+
   if (likeBtn) {
     event.stopPropagation();
-    handleLikeToggle(index);
-  } else {
-    openLightbox(index);
+    handleLikeToggle(index, likeBtn);
+    return;
   }
+
+  openLightbox(index);
 }
 
-/**
- * Handle keyboard activation for gallery card.
- */
 function handleCardKey(event, card) {
   if (event.key === "Enter" || event.key === " ") {
     event.preventDefault();
@@ -120,29 +123,34 @@ function handleCardKey(event, card) {
   }
 }
 
-/**
- * Toggle like state and update UI.
- */
-function handleLikeToggle(index) {
+function handleLikeToggle(index, triggerButton = null) {
   toggleLike(index);
-  renderGallery();
+  const liked = isLiked(index);
+
+  if (triggerButton) {
+    updateButtonState(triggerButton, liked);
+  }
+
+  const galleryLikeButton = gallery.querySelector(`.like-button[data-index="${index}"]`);
+  if (galleryLikeButton && galleryLikeButton !== triggerButton) {
+    updateButtonState(galleryLikeButton, liked);
+  }
+
   if (lightbox.open) {
     updateLightboxLikeButton();
   }
 }
 
-/**
- * Refresh like button inside the lightbox.
- */
-function updateLightboxLikeButton() {
-  const liked = isLiked(currentIndex);
-  lightboxLike.innerHTML = getLikeIconSvg(liked);
-  lightboxLike.classList.toggle("is-liked", liked);
+function updateButtonState(button, liked) {
+  button.innerHTML = getLikeIconSvg(liked);
+  button.classList.toggle("is-liked", liked);
+  button.setAttribute("aria-label", liked ? "Unlike photo" : "Like photo");
 }
 
-/**
- * Update lightbox details.
- */
+function updateLightboxLikeButton() {
+  updateButtonState(lightboxLike, isLiked(currentIndex));
+}
+
 function updateLightbox() {
   const image = IMAGES[currentIndex];
   lightboxImage.src = image.src;
@@ -152,9 +160,6 @@ function updateLightbox() {
   updateLightboxLikeButton();
 }
 
-/**
- * Open lightbox modal.
- */
 function openLightbox(index) {
   currentIndex = index;
   lastFocusedElement = document.activeElement;
@@ -164,60 +169,52 @@ function openLightbox(index) {
   closeButton.focus();
 }
 
-/**
- * Close lightbox modal.
- */
 function closeLightbox() {
+  if (!lightbox.open) return;
   lightbox.close();
   document.body.classList.remove("is-locked");
+
   if (lastFocusedElement) {
     lastFocusedElement.focus();
   }
 }
 
-/**
- * Show previous image in lightbox.
- */
 function showPrevious() {
   currentIndex = (currentIndex - 1 + IMAGES.length) % IMAGES.length;
   updateLightbox();
 }
 
-/**
- * Show next image in lightbox.
- */
 function showNext() {
   currentIndex = (currentIndex + 1) % IMAGES.length;
   updateLightbox();
 }
 
-/**
- * Handle key events in the lightbox dialog.
- */
 function handleDialogKeys(event) {
   if (event.key === "Escape") {
     closeLightbox();
   }
+
   if (event.key === "ArrowLeft") {
     showPrevious();
   }
+
   if (event.key === "ArrowRight") {
     showNext();
   }
 }
 
-/**
- * Initialize listeners and render gallery.
- */
 function init() {
   closeButton.addEventListener("click", closeLightbox);
   prevButton.addEventListener("click", showPrevious);
   nextButton.addEventListener("click", showNext);
   lightboxLike.addEventListener("click", () => handleLikeToggle(currentIndex));
   lightbox.addEventListener("keydown", handleDialogKeys);
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
+  lightbox.addEventListener("click", (event) => {
+    if (event.target === lightbox) {
+      closeLightbox();
+    }
   });
+
   renderGallery();
 }
 
